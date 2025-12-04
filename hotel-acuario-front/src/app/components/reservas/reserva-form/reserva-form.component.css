@@ -1,0 +1,230 @@
+mat-card {
+    padding: var(--spacing-lg);
+    background: #ffffff;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--gray-200);
+    transition: all var(--transition-base);
+    animation: fadeIn var(--transition-base) ease-out;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+mat-card-title {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    margin-bottom: var(--spacing-xs);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+mat-card-title::before {
+    content: '';
+    width: 3px;
+    height: 24px;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-gold));
+    border-radius: var(--radius-sm);
+}
+
+mat-card-subtitle {
+    color: var(--gray-600);
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-top: var(--spacing-xs);
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-md);
+}
+
+.form-grid .full {
+    grid-column: 1 / -1;
+}
+
+mat-form-field {
+    width: 100%;
+}
+
+mat-form-field ::ng-deep .mdc-text-field {
+    background: var(--gray-50);
+    border-radius: var(--radius-lg);
+    transition: all var(--transition-fast);
+}
+
+mat-form-field ::ng-deep .mdc-text-field:hover {
+    background: #ffffff;
+    box-shadow: var(--shadow-sm);
+}
+
+mat-form-field ::ng-deep .mdc-text-field--focused {
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(26, 54, 93, 0.1);
+}
+
+.servicios-section {
+    margin-top: var(--spacing-md);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--gray-200);
+}
+
+.servicios-header {
+    margin-bottom: var(--spacing-sm);
+}
+
+.servicios-header h3 {
+    margin: 0 0 var(--spacing-sm) 0;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--primary-dark);
+}
+
+.agregar-servicio-form {
+    display: flex;
+    gap: var(--spacing-sm);
+    align-items: flex-start;
+    margin-bottom: var(--spacing-sm);
+    padding: var(--spacing-md);
+    background-color: var(--gray-50);
+    border-radius: var(--radius-md);
+}
+
+.agregar-servicio-form mat-form-field {
+    flex: 1;
+}
+
+.cantidad-field {
+    width: 100px;
+    flex: 0 0 100px;
+}
+
+table {
+    width: 100%;
+    margin-bottom: var(--spacing-sm);
+    font-size: 0.875rem;
+}
+
+table ::ng-deep th {
+    font-size: 0.75rem;
+    padding: var(--spacing-sm);
+    font-weight: 600;
+}
+
+table ::ng-deep td {
+    padding: var(--spacing-sm);
+    font-size: 0.875rem;
+}
+
+.no-servicios {
+    text-align: center;
+    color: var(--gray-500);
+    padding: var(--spacing-md);
+    font-style: italic;
+    font-size: 0.875rem;
+}
+
+.resumen-montos {
+    margin-top: var(--spacing-md);
+    padding: var(--spacing-md);
+    background-color: var(--gray-50);
+    border-radius: var(--radius-md);
+}
+
+.monto-item {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--spacing-xs) 0;
+    border-bottom: 1px solid var(--gray-200);
+    font-size: 0.8rem;
+}
+
+.monto-item strong {
+    font-size: 0.8rem !important;
+}
+
+.monto-item:last-child {
+    border-bottom: none;
+}
+
+.monto-item.total {
+    font-size: 0.875rem;
+    font-weight: 700;
+    padding-top: var(--spacing-sm);
+    margin-top: var(--spacing-xs);
+    border-top: 2px solid var(--primary-color);
+    color: var(--primary-dark);
+}
+
+.monto-item.total strong {
+    font-size: 0.875rem !important;
+}
+
+.actions {
+    display: flex;
+    gap: var(--spacing-sm);
+    justify-content: flex-end;
+    margin-top: var(--spacing-md);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--gray-200);
+}
+
+button[mat-raised-button] {
+    min-width: 100px;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-transform: none;
+    letter-spacing: 0.3px;
+    transition: all var(--transition-fast);
+    box-shadow: var(--shadow-md);
+}
+
+button[mat-raised-button][color="primary"] {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light)) !important;
+    color: #ffffff !important;
+}
+
+button[mat-raised-button][color="primary"]:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    background: linear-gradient(135deg, var(--primary-light), var(--primary-color)) !important;
+}
+
+button[mat-button] {
+    color: var(--gray-600);
+    font-weight: 500;
+    font-size: 0.875rem;
+    text-transform: none;
+    transition: all var(--transition-fast);
+}
+
+button[mat-button]:hover {
+    background: var(--gray-100);
+    color: var(--primary-color);
+}
+
+@media (max-width: 768px) {
+    mat-card {
+        padding: var(--spacing-md);
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-sm);
+    }
+
+    .actions {
+        flex-direction: column-reverse;
+    }
+
+    button[mat-raised-button],
+    button[mat-button] {
+        width: 100%;
+    }
+}

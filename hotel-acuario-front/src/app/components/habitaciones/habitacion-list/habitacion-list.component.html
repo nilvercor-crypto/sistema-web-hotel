@@ -1,0 +1,91 @@
+<mat-card>
+    <mat-card-title>Habitaciones</mat-card-title>
+    <mat-card-subtitle>Gestión de habitaciones</mat-card-subtitle>
+
+    <div class="actions">
+        <mat-form-field appearance="outline">
+            <mat-label>Buscar</mat-label>
+            <input matInput (keyup)="applyFilter($any($event.target).value)"
+                placeholder="Número, tipo..." />
+            <button mat-icon-button matSuffix aria-label="Clear" (click)="applyFilter('')">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Estado</mat-label>
+            <mat-select [(ngModel)]="filtroEstado" (selectionChange)="onEstadoFilterChange()">
+                <mat-option *ngFor="let estado of estados" [value]="estado.value">
+                    {{ estado.label }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <button mat-icon-button matTooltip="Actualizar lista" (click)="cargarHabitaciones()" color="primary">
+            <mat-icon>refresh</mat-icon>
+        </button>
+        <button *ngIf="isAdmin()" mat-raised-button color="primary" (click)="nuevo()">
+            <mat-icon>add</mat-icon> Nuevo
+        </button>
+    </div>
+
+    <div *ngIf="loading" class="loading-container">
+        <mat-spinner diameter="50"></mat-spinner>
+        <p>Cargando habitaciones...</p>
+    </div>
+
+    <div class="table-wrap" *ngIf="!loading">
+        <table mat-table [dataSource]="dataSource" matSort matSortDisableClear class="mat-elevation-z1">
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+                <td mat-cell *matCellDef="let h">{{ h.id }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="numero">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Número </th>
+                <td mat-cell *matCellDef="let h">{{ h.numero }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="tipo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Tipo </th>
+                <td mat-cell *matCellDef="let h">{{ h.tipo }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="capacidad">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Capacidad </th>
+                <td mat-cell *matCellDef="let h">{{ h.capacidad }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="precioPorNoche">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Precio/Noche </th>
+                <td mat-cell *matCellDef="let h">S/ {{ h.precioPorNoche | number:'1.2-2' }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="estado">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
+                <td mat-cell *matCellDef="let h">
+                    <span [class]="'estado-' + h.estado?.toLowerCase()">
+                        {{ h.estado }}
+                    </span>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="acciones">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let h">
+                    <button *ngIf="isAdmin()" mat-icon-button aria-label="Editar" (click)="editar(h)" color="primary">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button *ngIf="isAdmin()" mat-icon-button aria-label="Eliminar" (click)="eliminar(h)" color="warn">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
+
+    <mat-paginator [pageSize]="10" [pageSizeOptions]="[5,10,25]" showFirstLastButtons></mat-paginator>
+</mat-card>

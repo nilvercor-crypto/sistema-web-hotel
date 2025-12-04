@@ -1,0 +1,155 @@
+<mat-card>
+    <mat-card-title>{{ title }}</mat-card-title>
+    <mat-card-content>
+        <form [formGroup]="form" class="form-grid">
+            <mat-form-field appearance="outline">
+                <mat-label>Cliente</mat-label>
+                <mat-select formControlName="clienteId">
+                    <mat-option *ngFor="let c of clientes()" [value]="c.id">
+                        {{ c.nombre }} {{ c.apellido }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="form.controls.clienteId.hasError('required')">
+                    El cliente es obligatorio
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Habitación</mat-label>
+                <mat-select formControlName="habitacionId">
+                    <mat-option *ngFor="let h of habitaciones()" [value]="h.id">
+                        {{ h.numero }} - {{ h.tipo }} | Capacidad: {{ h.capacidad }} | S/ {{ h.precioPorNoche | number:'1.2-2' }}/noche
+                    </mat-option>
+                </mat-select>
+                <mat-hint *ngIf="habitaciones().length === 0 && form.get('fechaIngreso')?.value && form.get('fechaSalida')?.value">
+                    No hay habitaciones disponibles para las fechas seleccionadas. Por favor, seleccione otras fechas.
+                </mat-hint>
+                <mat-hint *ngIf="habitaciones().length > 0 && form.get('fechaIngreso')?.value && form.get('fechaSalida')?.value">
+                    {{ habitaciones().length }} habitación(es) disponible(s) para las fechas seleccionadas
+                </mat-hint>
+                <mat-error *ngIf="form.controls.habitacionId.hasError('required')">
+                    La habitación es obligatoria
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Fecha de Ingreso</mat-label>
+                <input matInput [matDatepicker]="pickerIngreso" formControlName="fechaIngreso" 
+                    [min]="minDate" placeholder="DD/MM/YYYY" />
+                <mat-datepicker-toggle matIconSuffix [for]="pickerIngreso"></mat-datepicker-toggle>
+                <mat-datepicker #pickerIngreso [startAt]="minDate"></mat-datepicker>
+                <mat-error *ngIf="form.controls.fechaIngreso.hasError('required')">
+                    La fecha de ingreso es obligatoria
+                </mat-error>
+                <mat-error *ngIf="form.controls.fechaIngreso.hasError('fechaPasada')">
+                    No se pueden hacer reservas con fecha anterior al día de hoy
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Fecha de Salida</mat-label>
+                <input matInput [matDatepicker]="pickerSalida" formControlName="fechaSalida" 
+                    [min]="form.get('fechaIngreso')?.value || minDate" placeholder="DD/MM/YYYY" />
+                <mat-datepicker-toggle matIconSuffix [for]="pickerSalida"></mat-datepicker-toggle>
+                <mat-datepicker #pickerSalida [startAt]="form.get('fechaIngreso')?.value || minDate"></mat-datepicker>
+                <mat-error *ngIf="form.controls.fechaSalida.hasError('required')">
+                    La fecha de salida es obligatoria
+                </mat-error>
+                <mat-error *ngIf="form.controls.fechaSalida.hasError('matDatepickerMin')">
+                    La fecha de salida debe ser igual o posterior a la fecha de ingreso
+                </mat-error>
+            </mat-form-field>
+        </form>
+
+        <!-- Sección de Servicios -->
+        <div class="servicios-section">
+            <div class="servicios-header">
+                <h3>Servicios Adicionales</h3>
+            </div>
+
+            <div class="agregar-servicio-form">
+                <mat-form-field appearance="outline">
+                    <mat-label>Servicio</mat-label>
+                    <mat-select [(ngModel)]="servicioSeleccionadoId" [ngModelOptions]="{standalone: true}">
+                        <mat-option [value]="null">Seleccione un servicio</mat-option>
+                        <mat-option *ngFor="let s of servicios()" [value]="s.id">
+                            {{ s.nombreServicio }} - S/ {{ s.precio | number:'1.2-2' }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="cantidad-field">
+                    <mat-label>Cantidad</mat-label>
+                    <input matInput type="number" [(ngModel)]="cantidadServicio" 
+                        [ngModelOptions]="{standalone: true}" min="1" value="1" />
+                </mat-form-field>
+
+                <button mat-raised-button color="primary" (click)="agregarServicio()" 
+                    [disabled]="!servicioSeleccionadoId || cantidadServicio < 1">
+                    <mat-icon>add</mat-icon> Agregar
+                </button>
+            </div>
+
+            <table mat-table [dataSource]="serviciosSeleccionados()" class="mat-elevation-z1" *ngIf="serviciosSeleccionados().length > 0">
+                <ng-container matColumnDef="servicio">
+                    <th mat-header-cell *matHeaderCellDef> Servicio </th>
+                    <td mat-cell *matCellDef="let s">{{ s.servicioNombre }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="precio">
+                    <th mat-header-cell *matHeaderCellDef> Precio Unit. </th>
+                    <td mat-cell *matCellDef="let s">S/ {{ s.servicioPrecio | number:'1.2-2' }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="cantidad">
+                    <th mat-header-cell *matHeaderCellDef> Cantidad </th>
+                    <td mat-cell *matCellDef="let s">{{ s.cantidad }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="subtotal">
+                    <th mat-header-cell *matHeaderCellDef> Subtotal </th>
+                    <td mat-cell *matCellDef="let s">S/ {{ s.subtotal | number:'1.2-2' }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="acciones">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let s; let i = index">
+                        <button mat-icon-button color="warn" (click)="quitarServicio(i)" aria-label="Quitar">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            <p *ngIf="serviciosSeleccionados().length === 0" class="no-servicios">
+                No hay servicios agregados. Haga clic en "Agregar Servicio" para incluir servicios adicionales.
+            </p>
+        </div>
+
+        <!-- Resumen de Montos -->
+        <div class="resumen-montos">
+            <div class="monto-item">
+                <span>Monto Habitación:</span>
+                <strong>S/ {{ montoHabitacion() | number:'1.2-2' }}</strong>
+            </div>
+            <div class="monto-item">
+                <span>Monto Servicios:</span>
+                <strong>S/ {{ montoServicios() | number:'1.2-2' }}</strong>
+            </div>
+            <div class="monto-item total">
+                <span>Total:</span>
+                <strong>S/ {{ montoTotal() | number:'1.2-2' }}</strong>
+            </div>
+        </div>
+    </mat-card-content>
+
+    <mat-card-actions align="end">
+        <button mat-stroked-button color="primary" routerLink="/reservas">Volver</button>
+        <button mat-raised-button color="primary" (click)="guardar()" [disabled]="form.invalid">
+            Guardar
+        </button>
+    </mat-card-actions>
+</mat-card>

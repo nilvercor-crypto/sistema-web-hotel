@@ -1,0 +1,86 @@
+<mat-card>
+  <mat-card-title>Información del Hotel</mat-card-title>
+  <mat-card-subtitle>Gestión de datos de contacto y información general</mat-card-subtitle>
+
+  <form [formGroup]="form" (ngSubmit)="guardar()" *ngIf="!loading && hotel">
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Nombre del Hotel</mat-label>
+        <input matInput formControlName="nombre" required />
+        <mat-error *ngIf="form.controls['nombre'].hasError('required')">
+          El nombre es obligatorio
+        </mat-error>
+        <mat-error *ngIf="form.controls['nombre'].hasError('maxlength')">
+          El nombre no puede exceder 150 caracteres
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>RUC</mat-label>
+        <input matInput formControlName="ruc" maxlength="11" />
+        <mat-error *ngIf="form.controls['ruc'].hasError('minlength') || form.controls['ruc'].hasError('maxlength')">
+          El RUC debe tener exactamente 11 dígitos
+        </mat-error>
+        <mat-error *ngIf="form.controls['ruc'].hasError('pattern')">
+          El RUC debe contener solo dígitos numéricos
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Celular</mat-label>
+        <input matInput formControlName="celular" maxlength="9" />
+        <mat-error *ngIf="form.controls['celular'].hasError('minlength') || form.controls['celular'].hasError('maxlength')">
+          El celular debe tener exactamente 9 dígitos
+        </mat-error>
+        <mat-error *ngIf="form.controls['celular'].hasError('pattern')">
+          El celular debe contener solo dígitos numéricos
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Dirección</mat-label>
+        <input matInput formControlName="direccion" />
+        <mat-error *ngIf="form.controls['direccion'].hasError('maxlength')">
+          La dirección no puede exceder 200 caracteres
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email" />
+        <mat-error *ngIf="form.controls['email'].hasError('email')">
+          El email debe tener un formato válido
+        </mat-error>
+        <mat-error *ngIf="form.controls['email'].hasError('maxlength')">
+          El email no puede exceder 150 caracteres
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-actions" *ngIf="isAdmin()">
+      <button mat-raised-button type="button" (click)="cancelar()">
+        <mat-icon>cancel</mat-icon>
+        Cancelar
+      </button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="loading">
+        <mat-icon>save</mat-icon>
+        Guardar
+      </button>
+    </div>
+
+    <div class="read-only-message" *ngIf="!isAdmin()">
+      <p>No tiene permisos para editar la información del hotel. Solo los administradores pueden realizar cambios.</p>
+    </div>
+  </form>
+
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Cargando información del hotel...</p>
+  </div>
+</mat-card>

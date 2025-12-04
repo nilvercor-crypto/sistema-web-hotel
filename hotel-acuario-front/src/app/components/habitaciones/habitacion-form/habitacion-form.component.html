@@ -1,0 +1,68 @@
+<mat-card>
+    <mat-card-title>{{ title }}</mat-card-title>
+    <mat-card-content>
+        <form [formGroup]="form" class="form-grid">
+            <mat-form-field appearance="outline">
+                <mat-label>Número</mat-label>
+                <input matInput formControlName="numero" />
+                <mat-error *ngIf="form.controls.numero.hasError('required')">
+                    El número es obligatorio
+                </mat-error>
+                <mat-error *ngIf="form.controls.numero.hasError('maxlength')">
+                    El número no puede exceder 10 caracteres
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Tipo</mat-label>
+                <input matInput formControlName="tipo" placeholder="Simple, Doble, Suite..." />
+                <mat-error *ngIf="form.controls.tipo.hasError('required')">
+                    El tipo es obligatorio
+                </mat-error>
+                <mat-error *ngIf="form.controls.tipo.hasError('maxlength')">
+                    El tipo no puede exceder 50 caracteres
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Capacidad</mat-label>
+                <input matInput type="number" formControlName="capacidad" min="1" />
+                <mat-error *ngIf="form.controls.capacidad.hasError('required')">
+                    La capacidad es obligatoria
+                </mat-error>
+                <mat-error *ngIf="form.controls.capacidad.hasError('min')">
+                    La capacidad debe ser al menos 1
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Precio por Noche</mat-label>
+                <span matPrefix class="currency-prefix">S/&nbsp;</span>
+                <input matInput type="number" formControlName="precioPorNoche" min="0" step="0.01" />
+                <mat-error *ngIf="form.controls.precioPorNoche.hasError('required')">
+                    El precio es obligatorio
+                </mat-error>
+                <mat-error *ngIf="form.controls.precioPorNoche.hasError('min')">
+                    El precio debe ser mayor o igual a 0
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Estado</mat-label>
+                <mat-select formControlName="estado">
+                    <mat-option *ngFor="let e of estados" [value]="e.value">
+                        {{ e.label }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="form.controls.estado.hasError('required')">
+                    El estado es obligatorio
+                </mat-error>
+            </mat-form-field>
+        </form>
+    </mat-card-content>
+
+    <mat-card-actions align="end">
+        <button mat-stroked-button color="primary" routerLink="/habitaciones">Volver</button>
+        <button mat-raised-button color="primary" (click)="guardar()" [disabled]="form.invalid">Guardar</button>
+    </mat-card-actions>
+</mat-card>

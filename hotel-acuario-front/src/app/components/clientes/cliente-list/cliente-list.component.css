@@ -1,0 +1,224 @@
+mat-card {
+    padding: var(--spacing-lg);
+    background: #ffffff;
+    border-radius: var(--radius-xl);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border: none;
+    transition: all var(--transition-base);
+    animation: fadeIn var(--transition-base) ease-out;
+}
+
+mat-card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-1px);
+}
+
+mat-card-title {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    margin-bottom: var(--spacing-xs);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+mat-card-title::before {
+    content: '';
+    width: 3px;
+    height: 24px;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-gold));
+    border-radius: var(--radius-sm);
+}
+
+mat-card-subtitle {
+    color: var(--gray-600);
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-top: var(--spacing-xs);
+}
+
+.actions {
+    margin: var(--spacing-md) 0 var(--spacing-md);
+    display: flex;
+    gap: var(--spacing-sm);
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+mat-form-field {
+    width: 300px;
+    max-width: 100%;
+    flex: 1;
+    min-width: 200px;
+}
+
+mat-form-field ::ng-deep .mdc-text-field {
+    background: var(--gray-50);
+    border-radius: var(--radius-lg);
+    transition: all var(--transition-fast);
+}
+
+mat-form-field ::ng-deep .mdc-text-field:hover {
+    background: #ffffff;
+    box-shadow: var(--shadow-md);
+}
+
+mat-form-field ::ng-deep .mdc-text-field--focused {
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(26, 54, 93, 0.1);
+}
+
+button[mat-raised-button] {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light)) !important;
+    color: #ffffff !important;
+    font-weight: 600;
+    font-size: 0.875rem;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-fast);
+    text-transform: none;
+    letter-spacing: 0.3px;
+}
+
+button[mat-raised-button]:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    background: linear-gradient(135deg, var(--primary-light), var(--primary-color)) !important;
+}
+
+button[mat-icon-button] {
+    transition: all var(--transition-fast);
+    border-radius: var(--radius-md);
+}
+
+button[mat-icon-button]:hover {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-md);
+}
+
+.table-wrap {
+    overflow-x: auto;
+    overflow-y: visible;
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--gray-200);
+    background: #ffffff;
+    margin-top: var(--spacing-lg);
+    scrollbar-width: thin;
+    scrollbar-color: var(--gray-300) transparent;
+}
+
+.table-wrap::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+}
+
+.table-wrap::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: var(--radius-md);
+}
+
+.table-wrap::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: var(--radius-md);
+    transition: background var(--transition-fast);
+}
+
+.table-wrap::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+table {
+    width: 100%;
+    background: #ffffff;
+}
+
+table ::ng-deep th {
+    background: linear-gradient(135deg, var(--gray-50), #ffffff);
+    color: var(--primary-dark);
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-bottom: 2px solid var(--gray-200);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+table ::ng-deep td {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-bottom: 1px solid var(--gray-100);
+    color: var(--gray-700);
+    font-size: 0.875rem;
+    transition: all var(--transition-fast);
+}
+
+table ::ng-deep tr {
+    transition: all var(--transition-fast);
+}
+
+table ::ng-deep tr:hover {
+    background: linear-gradient(90deg, var(--gray-50), #ffffff);
+    transform: scale(1.01);
+}
+
+table ::ng-deep tr:last-child td {
+    border-bottom: none;
+}
+
+mat-paginator {
+    background: var(--gray-50);
+    border-top: 1px solid var(--gray-200);
+    border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+}
+
+button[mat-icon-button][color="primary"] {
+    color: var(--primary-color) !important;
+}
+
+button[mat-icon-button][color="primary"]:hover {
+    background: rgba(26, 54, 93, 0.1);
+}
+
+button[mat-icon-button][color="warn"] {
+    color: var(--error) !important;
+}
+
+       button[mat-icon-button][color="warn"]:hover {
+           background: rgba(239, 68, 68, 0.1);
+       }
+
+       .loading-container {
+           display: flex;
+           flex-direction: column;
+           align-items: center;
+           justify-content: center;
+           padding: var(--spacing-xxl);
+           gap: var(--spacing-md);
+       }
+
+       .loading-container p {
+           color: var(--gray-600);
+           font-size: 0.875rem;
+           margin: 0;
+       }
+
+       @media (max-width: 768px) {
+    mat-card {
+        padding: var(--spacing-md);
+    }
+
+    .actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    mat-form-field {
+        width: 100%;
+    }
+}

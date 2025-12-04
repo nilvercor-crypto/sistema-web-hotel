@@ -1,0 +1,115 @@
+<div class="register-container">
+  <div class="register-wrapper">
+    <div class="register-card">
+      <div class="register-header">
+        <div class="logo-container">
+          <svg class="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 9L12 2L21 9V20H3V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M9 22V12H15V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h1 class="register-title">Crear Cuenta</h1>
+        <p class="register-subtitle">Regístrate en Hotel Acuario</p>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="register-form">
+        <div class="form-group">
+          <label class="form-label">Nombre de Usuario</label>
+          <div class="input-wrapper">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <input 
+              type="text" 
+              formControlName="nombreUsuario" 
+              class="form-input"
+              [class.error]="form.controls.nombreUsuario.invalid && form.controls.nombreUsuario.touched"
+              autocomplete="username"
+              placeholder="Ingrese su usuario"
+            />
+          </div>
+          <span class="error-message" *ngIf="form.controls.nombreUsuario.hasError('required') && form.controls.nombreUsuario.touched">
+            El nombre de usuario es obligatorio
+          </span>
+          <span class="error-message" *ngIf="form.controls.nombreUsuario.hasError('minlength') && form.controls.nombreUsuario.touched">
+            El nombre de usuario debe tener al menos 3 caracteres
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Contraseña</label>
+          <div class="input-wrapper">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M7 11V7C7 5.67392 7.52678 4.40215 8.46447 3.46447C9.40215 2.52678 10.6739 2 12 2C13.3261 2 14.5979 2.52678 15.5355 3.46447C16.4732 4.40215 17 5.67392 17 7V11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <input 
+              type="password" 
+              formControlName="contrasena" 
+              class="form-input"
+              [class.error]="form.controls.contrasena.invalid && form.controls.contrasena.touched"
+              autocomplete="new-password"
+              placeholder="Mínimo 6 caracteres"
+            />
+          </div>
+          <span class="error-message" *ngIf="form.controls.contrasena.hasError('required') && form.controls.contrasena.touched">
+            La contraseña es obligatoria
+          </span>
+          <span class="error-message" *ngIf="form.controls.contrasena.hasError('minlength') && form.controls.contrasena.touched">
+            La contraseña debe tener al menos 6 caracteres
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Confirmar Contraseña</label>
+          <div class="input-wrapper">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M7 11V7C7 5.67392 7.52678 4.40215 8.46447 3.46447C9.40215 2.52678 10.6739 2 12 2C13.3261 2 14.5979 2.52678 15.5355 3.46447C16.4732 4.40215 17 5.67392 17 7V11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <input 
+              type="password" 
+              formControlName="confirmarContrasena" 
+              class="form-input"
+              [class.error]="form.controls.confirmarContrasena.invalid && form.controls.confirmarContrasena.touched"
+              autocomplete="new-password"
+              placeholder="Confirme su contraseña"
+            />
+          </div>
+          <span class="error-message" *ngIf="form.controls.confirmarContrasena.hasError('required') && form.controls.confirmarContrasena.touched">
+            Debe confirmar la contraseña
+          </span>
+          <span class="error-message" *ngIf="form.hasError('passwordMismatch') && form.controls.confirmarContrasena.touched">
+            Las contraseñas no coinciden
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Tipo de Usuario</label>
+          <div class="input-wrapper">
+            <select formControlName="rol" class="form-input form-select">
+              <option value="USUARIO">Usuario</option>
+              <option value="ADMINISTRADOR">Administrador</option>
+            </select>
+          </div>
+        </div>
+
+        <button 
+          type="submit" 
+          class="register-button"
+          [class.loading]="loading"
+          [disabled]="loading || form.invalid"
+        >
+          <span *ngIf="!loading" class="button-text">Registrarse</span>
+          <span *ngIf="loading" class="loading-spinner"></span>
+        </button>
+      </form>
+
+      <div class="login-link">
+        <p>¿Ya tienes una cuenta? <a (click)="irALogin()" class="link">Inicia sesión aquí</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+

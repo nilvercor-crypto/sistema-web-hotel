@@ -1,0 +1,91 @@
+@use '@angular/material' as mat;
+@include mat.core();
+
+// Paleta de colores premium para hotel de 5 estrellas
+$primary-palette: (
+  50: #e8edf3,
+  100: #c5d2e0,
+  200: #9eb4cb,
+  300: #7796b6,
+  400: #5980a6,
+  500: #3b6a96, // Color principal
+  600: #35628e,
+  700: #2d5783,
+  800: #264d79,
+  900: #1a365d, // Color oscuro
+  A100: #c5d2e0,
+  A200: #9eb4cb,
+  A400: #5980a6,
+  A700: #2d5783,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: rgba(black, 0.87),
+    A200: rgba(black, 0.87),
+    A400: white,
+    A700: white,
+  )
+);
+
+$accent-palette: (
+  50: #faf8f0,
+  100: #f3eed3,
+  200: #ebe3b4,
+  300: #e3d895,
+  400: #ddcf7e,
+  500: #d4af37, // Dorado principal
+  600: #cfa831,
+  700: #c99f2a,
+  800: #c39623,
+  900: #b88616,
+  A100: #fff9e6,
+  A200: #fff0b3,
+  A400: #ffe680,
+  A700: #ffdd4d,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: rgba(black, 0.87),
+    500: rgba(black, 0.87),
+    600: rgba(black, 0.87),
+    700: rgba(black, 0.87),
+    800: rgba(black, 0.87),
+    900: rgba(black, 0.87),
+    A100: rgba(black, 0.87),
+    A200: rgba(black, 0.87),
+    A400: rgba(black, 0.87),
+    A700: rgba(black, 0.87),
+  )
+);
+
+$warn-palette: mat.$red-palette;
+
+// Crear los temas
+$primary: mat.define-palette($primary-palette, 500, 900, 700);
+$accent: mat.define-palette($accent-palette, 500, 100, 900);
+$warn: mat.define-palette($warn-palette);
+
+$theme: mat.define-light-theme((
+  color: (
+    primary: $primary,
+    accent: $accent,
+    warn: $warn,
+  ),
+  typography: mat.define-typography-config(
+    $font-family: 'Inter, Roboto, "Helvetica Neue", sans-serif',
+  ),
+  density: 0,
+));
+
+@include mat.all-component-themes($theme);
+
